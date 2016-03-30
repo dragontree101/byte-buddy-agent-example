@@ -28,7 +28,7 @@ public class RedisInterceptor {
 
     try {
       int i = 0;
-      for(Object arg : args) {
+      for (Object arg : args) {
         System.out.println("redis arg index: " + i++ + ", value is " + arg.toString());
       }
 

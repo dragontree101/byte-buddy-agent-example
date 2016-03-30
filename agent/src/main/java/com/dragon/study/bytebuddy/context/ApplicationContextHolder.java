@@ -4,6 +4,8 @@ package com.dragon.study.bytebuddy.context;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,6 +15,7 @@ import java.util.Map;
 /**
  * Created by Reilost on 14-3-4.
  */
+@Component
 public class ApplicationContextHolder implements ApplicationContextAware {
   private static ApplicationContext _context;
 

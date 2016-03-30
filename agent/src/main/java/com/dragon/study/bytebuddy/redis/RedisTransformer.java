@@ -13,22 +13,17 @@ import static net.bytebuddy.matcher.ElementMatchers.returns;
  */
 public class RedisTransformer implements AgentBuilder.Transformer {
 
-  private final TypeDescription delegator;
+  private final TypeDescription delegate;
 
-  public RedisTransformer(TypeDescription delegator) {
-    this.delegator = delegator;
+  public RedisTransformer(TypeDescription delegate) {
+    this.delegate = delegate;
   }
 
   @Override
   public DynamicType.Builder transform(DynamicType.Builder<?> builder,
       TypeDescription typeDescription, ClassLoader classLoader) {
-    try {
-      return builder.method(named("sendCommand")
-          .and(returns(named("redis.clients.jedis.Connection"))))
-          .intercept(MethodDelegation.to(delegator));
-    } catch (Exception e) {
-      e.printStackTrace();
-      return builder;
-    }
+    return builder
+        .method(named("sendCommand").and(returns(named("redis.clients.jedis.Connection"))))
+        .intercept(MethodDelegation.to(delegate));
   }
 }

@@ -13,22 +13,17 @@ import static net.bytebuddy.matcher.ElementMatchers.returns;
  */
 public class HttpClientTransformer implements AgentBuilder.Transformer {
 
-  private final TypeDescription delegator;
+  private final TypeDescription delegate;
 
-  public HttpClientTransformer(TypeDescription delegator) {
-    this.delegator = delegator;
+  public HttpClientTransformer(TypeDescription delegate) {
+    this.delegate = delegate;
   }
 
   @Override
   public DynamicType.Builder transform(DynamicType.Builder<?> builder,
       TypeDescription typeDescription, ClassLoader classLoader) {
-    try {
-      return builder.method(named("execute")
-          .and(returns(named("org.apache.http.client.methods.CloseableHttpResponse"))))
-          .intercept(MethodDelegation.to(delegator));
-    } catch (Exception e) {
-      e.printStackTrace();
-      return builder;
-    }
+    return builder.method(named("execute")
+        .and(returns(named("org.apache.http.client.methods.CloseableHttpResponse"))))
+        .intercept(MethodDelegation.to(delegate));
   }
 }

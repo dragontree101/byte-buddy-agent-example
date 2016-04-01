@@ -1,11 +1,17 @@
 package com.dragon.study.bytebuddy.context;
 
 
+import com.dragon.study.bytebuddy.exception.LoadMyAgentException;
+import com.dragon.study.bytebuddy.utils.ClassInjector;
+import com.dragon.study.bytebuddy.utils.JarLoader;
+
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,21 +27,6 @@ public class ApplicationContextHolder implements ApplicationListener<ContextRefr
     return _context;
   }
 
-
-  /**
-   * 将该对象中的带有Autowired annotation的属性自动注入
-   */
-  public static void autowireBean(Object obj) {
-    if (_context != null) {
-      AutowireCapableBeanFactory factory = _context.getAutowireCapableBeanFactory();
-      factory.autowireBean(obj);
-    }
-  }
-
-  @SuppressWarnings("unchecked")
-  public static <T> T getBean(String name) {
-    return (T) _context.getBean(name);
-  }
 
   @SuppressWarnings("unchecked")
   public static <T> T getBean(Class<T> clazz) {
@@ -55,32 +46,30 @@ public class ApplicationContextHolder implements ApplicationListener<ContextRefr
     return (T) _context.getBean(names[0]);
   }
 
-  public static <T> List<T> getBeans(Class<T> clazz) {
-    List<T> ret = new ArrayList<T>();
-    if (_context == null) {
-      return ret;
-    }
-    String[] names = _context.getBeanNamesForType(clazz);
-    if (names == null || names.length == 0) {
-      return ret;
-    }
-    for (String name : names) {
-      ret.add((T) _context.getBean(name));
-    }
-    return ret;
-  }
-
-  public static void setMockBean(Class clazz, Object object) {
-    if (mockBeans == null) {
-      mockBeans = new HashMap<Class, Object>();
-    }
-    mockBeans.put(clazz, object);
-  }
-
 
   @Override
   public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
     _context = contextRefreshedEvent.getApplicationContext();
+
+    loaderAgentJarToClassLoader();
+  }
+
+  private void loaderAgentJarToClassLoader() {
+    URL[] urls = JarLoader.loadMyAgentCoreLib();
+    if(urls == null) {
+      System.err.println("can not find my agent urls");
+      throw new LoadMyAgentException("can not find my agent urls");
+    }
+
+    ClassLoader classLoader = getClass().getClassLoader();
+
+    ClassInjector injector = new ClassInjector();
+    try {
+      injector.injectToURLClassLoader(urls, (URLClassLoader) classLoader);
+    } catch (Exception e) {
+      e.printStackTrace();
+      throw new LoadMyAgentException("inject url to class loader exception", e);
+    }
   }
 
 

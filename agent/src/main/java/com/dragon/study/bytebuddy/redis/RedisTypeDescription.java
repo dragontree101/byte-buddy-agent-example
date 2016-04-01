@@ -14,6 +14,7 @@ public class RedisTypeDescription {
   }
 
   public static TypeDescription byteArrayArrayDescription() {
-    return new TypeDescription.Latent(new TypeDescription.ForLoadedType(byte[][].class).getName(), TypeDescription.ARRAY_MODIFIERS, null, null);
+    return new TypeDescription.Latent(new TypeDescription.ForLoadedType(byte[][].class).getName(),
+        TypeDescription.ARRAY_MODIFIERS, null, null);
   }
 }

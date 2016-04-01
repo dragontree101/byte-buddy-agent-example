@@ -4,9 +4,6 @@ import net.bytebuddy.agent.builder.AgentBuilder;
 import net.bytebuddy.description.type.TypeDescription;
 import net.bytebuddy.dynamic.DynamicType;
 
-import java.io.File;
-import java.io.IOException;
-
 /**
  * Created by dragon on 16/3/28.
  */

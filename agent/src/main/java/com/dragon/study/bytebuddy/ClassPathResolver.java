@@ -8,9 +8,7 @@ import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * @author emeroad
- */
+
 public class ClassPathResolver {
 
   private static final Pattern DEFAULT_AGENT_PATTERN = Pattern.compile("myagent(-[0-9]+\\.[0-9]+\\.[0-9]+(\\-SNAPSHOT)?)?\\.jar");

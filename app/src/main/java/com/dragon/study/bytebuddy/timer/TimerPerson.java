@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 
 import redis.clients.jedis.Jedis;
-import redis.clients.jedis.Protocol;
 
 /**
  * Created by dragon on 16/3/28.
@@ -25,7 +24,6 @@ public class TimerPerson {
 
   @Scheduled(fixedDelay = 5000L, initialDelay = 1000L)
   public void httpClientTest() {
-    System.out.println("-------------" + getClass().getClassLoader().toString());
     System.out.println(person.toString() + " calling http client, time is " + System.currentTimeMillis());
     try {
       CloseableHttpResponse response = HttpClients.createDefault()

@@ -3,20 +3,16 @@ package com.dragon.study.bytebuddy.context;
 
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
+import org.springframework.context.ApplicationListener;
+import org.springframework.context.event.ContextRefreshedEvent;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by Reilost on 14-3-4.
- */
-@Component
-public class ApplicationContextHolder implements ApplicationContextAware {
+
+public class ApplicationContextHolder implements ApplicationListener<ContextRefreshedEvent> {
   private static ApplicationContext _context;
 
   private static Map<Class, Object> mockBeans;
@@ -25,10 +21,6 @@ public class ApplicationContextHolder implements ApplicationContextAware {
     return _context;
   }
 
-  @Override
-  public void setApplicationContext(ApplicationContext context) {
-    _context = context;
-  }
 
   /**
    * 将该对象中的带有Autowired annotation的属性自动注入
@@ -83,6 +75,12 @@ public class ApplicationContextHolder implements ApplicationContextAware {
       mockBeans = new HashMap<Class, Object>();
     }
     mockBeans.put(clazz, object);
+  }
+
+
+  @Override
+  public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
+    _context = contextRefreshedEvent.getApplicationContext();
   }
 
 

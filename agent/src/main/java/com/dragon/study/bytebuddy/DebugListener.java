@@ -15,17 +15,17 @@ public class DebugListener {
     return new AgentBuilder.Listener() {
       @Override
       public void onTransformation(TypeDescription typeDescription, DynamicType dynamicType) {
-        System.err.println("onTransformation:" + typeDescription.getCanonicalName());
-        try {
-          dynamicType.saveIn(new File("generated_classes"));
-        } catch (IOException e) {
-          e.printStackTrace();
-        }
+////        System.err.println("onTransformation:" + typeDescription.getCanonicalName());
+//        try {
+//          dynamicType.saveIn(new File("generated_classes"));
+//        } catch (IOException e) {
+//          e.printStackTrace();
+//        }
       }
 
       @Override
       public void onIgnored(TypeDescription typeDescription) {
-        System.err.println("onIgored:" + typeDescription.getCanonicalName());
+//        System.err.println("onIgored:" + typeDescription.getCanonicalName());
       }
 
       @Override
@@ -36,7 +36,7 @@ public class DebugListener {
 
       @Override
       public void onComplete(String typeName) {
-        System.err.println("onComplete:" + typeName);
+//        System.err.println("onComplete:" + typeName);
       }
     };
   }

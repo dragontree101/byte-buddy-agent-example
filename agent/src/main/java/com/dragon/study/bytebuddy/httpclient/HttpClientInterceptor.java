@@ -39,7 +39,7 @@ public class HttpClientInterceptor {
       trace.setCost(System.currentTimeMillis() - start);
       trace.setE(e);
       trace.setStatusCode(-1);
-      System.out.println("exception trace is " + trace + ", person is " + person.toString());
+      System.out.println("exception trace is " + trace + ", person is " );
       throw e;
     }
   }

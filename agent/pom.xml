@@ -10,7 +10,7 @@
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>agent</artifactId>
+    <artifactId>myagent</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <build>
         <plugins>
@@ -69,6 +69,7 @@
                     <archive>
                         <manifestEntries>
                             <Premain-Class>com.dragon.study.bytebuddy.MyAgent</Premain-Class>
+                            <Agent-Class>com.dragon.study.bytebuddy.MyAgent</Agent-Class>
                             <Can-Redefine-Classes>true</Can-Redefine-Classes>
                             <Can-Retransform-Classes>true</Can-Retransform-Classes>
                             <Can-Set-Native-Method-Prefix>true</Can-Set-Native-Method-Prefix>
@@ -119,12 +120,12 @@
             <scope>provided</scope>
         </dependency>
 
-        <dependency>
-            <groupId>com.dragon.study.bytebuddy</groupId>
-            <artifactId>app</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>com.dragon.study.bytebuddy</groupId>-->
+            <!--<artifactId>app</artifactId>-->
+            <!--<version>1.0.0-SNAPSHOT</version>-->
+            <!--<scope>provided</scope>-->
+        <!--</dependency>-->
 
     </dependencies>
 

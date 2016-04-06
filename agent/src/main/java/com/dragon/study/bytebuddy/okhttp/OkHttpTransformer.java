@@ -1,4 +1,4 @@
-package com.dragon.study.bytebuddy.httpclient;
+package com.dragon.study.bytebuddy.okhttp;
 
 import com.dragon.study.bytebuddy.AbstractTransformer;
 
@@ -11,17 +11,17 @@ import static net.bytebuddy.matcher.ElementMatchers.returns;
 /**
  * Created by dragon on 16/3/29.
  */
-public class HttpClientTransformer extends AbstractTransformer {
+public class OkHttpTransformer extends AbstractTransformer {
 
-  public HttpClientTransformer(String httpInterceptor) {
+  public OkHttpTransformer(String httpInterceptor) {
     super(httpInterceptor);
   }
 
   @Override
   protected DynamicType.Builder.MethodDefinition.ImplementationDefinition builderTransform(
       DynamicType.Builder<?> builder, ClassFileLocator.Compound compound) {
-    return builder.method(named("execute")
-        .and(returns(named("org.apache.http.client.methods.CloseableHttpResponse"))));
+    return builder.method(named("proceed")
+        .and(returns(named("okhttp3.Response"))));
   }
 
 }

@@ -1,51 +1,47 @@
-package com.dragon.study.bytebuddy.redis;
+package com.dragon.study.bytebuddy.okhttp;
 
 import com.dragon.study.bytebuddy.Trace;
 import com.dragon.study.bytebuddy.bean.Person;
 import com.dragon.study.bytebuddy.context.ApplicationContextHolder;
 
 import net.bytebuddy.implementation.bind.annotation.AllArguments;
-import net.bytebuddy.implementation.bind.annotation.Origin;
 import net.bytebuddy.implementation.bind.annotation.SuperCall;
-import net.bytebuddy.implementation.bind.annotation.This;
 
 import java.util.concurrent.Callable;
 
-import redis.clients.jedis.Connection;
+import okhttp3.Request;
+import okhttp3.Response;
 
 /**
  * Created by dragon on 16/3/29.
  */
-public class RedisInterceptor {
+public class OkHttpInterceptor {
 
-  public static Connection sendMessage(
+  public static Response doProceed(
       @SuperCall
-      Callable<Connection> client,
+      Callable<Response> client,
       @AllArguments
       Object[] args) throws Exception {
-
     Person person = ApplicationContextHolder.getBean(Person.class);
     Trace trace = new Trace();
     long start = System.currentTimeMillis();
-
     try {
-      int i = 0;
-      for (Object arg : args) {
-        System.out.println("redis arg index: " + i++ + ", value is " + arg.toString());
-      }
-
-      trace.setUrl("local redis");
-      Connection response = client.call();
+      Request request = (Request)args[0];
+      trace.setUrl(request.url().encodedPath());
+      Response response = client.call();
       trace.setCost(System.currentTimeMillis() - start);
-      trace.setStatusCode(200);
+      trace.setStatusCode(response.code());
       System.out.println("trace is " + trace + ", person is " + person.toString());
       return response;
     } catch (Exception e) {
       trace.setCost(System.currentTimeMillis() - start);
       trace.setE(e);
       trace.setStatusCode(-1);
-      System.out.println("exception trace is " + trace + ", person is " + person.toString());
+      System.out.println("exception trace is " + trace + ", person is " );
       throw e;
     }
   }
+
+
+
 }

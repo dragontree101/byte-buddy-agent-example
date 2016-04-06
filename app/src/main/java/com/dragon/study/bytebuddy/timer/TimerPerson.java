@@ -11,6 +11,10 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import okhttp3.internal.http.HttpEngine;
 import redis.clients.jedis.Jedis;
 
 /**
@@ -24,14 +28,27 @@ public class TimerPerson {
 
   @Scheduled(fixedDelay = 5000L, initialDelay = 1000L)
   public void httpClientTest() {
-    System.out.println(person.toString() + " calling http client, time is " + System.currentTimeMillis());
+//    System.out.println(person.toString() + " calling http client, time is " + System.currentTimeMillis());
+    OkHttpClient client = new OkHttpClient();
+    String response;
     try {
-      CloseableHttpResponse response = HttpClients.createDefault()
-          .execute(new HttpGet("http://enjoy.ricebook.com/"));
-      System.out.println(response.getStatusLine());
+      response = getResponse(client, "http://enjoy.ricebook.com/");
     } catch (IOException e) {
       e.printStackTrace();
+      response = "request error";
     }
+
+    System.out.println("OK");
+
+  }
+
+  private String getResponse(OkHttpClient client, String url) throws IOException {
+    Request request = new Request.Builder()
+        .url("http://enjoy.ricebook.com/")
+        .build();
+
+    Response response = client.newCall(request).execute();
+    return response.body().string();
   }
 
   @Scheduled(fixedDelay = 10000L, initialDelay = 3000L)
@@ -44,5 +61,10 @@ public class TimerPerson {
     System.out.println("key is a, value is " + value + ", info is " + info);
     jedis.close();
 
+  }
+
+  public static void main(String[] args) {
+    TimerPerson person = new TimerPerson();
+    person.httpClientTest();
   }
 }

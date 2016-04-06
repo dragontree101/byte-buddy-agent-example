@@ -7,7 +7,10 @@ import net.bytebuddy.agent.builder.AgentBuilder;
 
 import java.lang.instrument.Instrumentation;
 
+import static net.bytebuddy.matcher.ElementMatchers.isInterface;
+import static net.bytebuddy.matcher.ElementMatchers.isStatic;
 import static net.bytebuddy.matcher.ElementMatchers.nameStartsWith;
+import static net.bytebuddy.matcher.ElementMatchers.not;
 import static net.bytebuddy.matcher.ElementMatchers.named;
 
 /**
@@ -24,7 +27,7 @@ public class MyAgent {
             .with(DebugListener.getListener())
             .type(named("okhttp3.internal.http.HttpEngine$NetworkInterceptorChain"))
             .transform(new OkHttpTransformer(okHttpInterceptor))
-            .type(nameStartsWith("redis.clients.jedis"))
+            .type(nameStartsWith("redis.clients.jedis").and(not(isInterface())).and(not(isStatic())))
             .transform(new RedisTransformer(redisInterceptor))
             .installOn(instrumentation);
 

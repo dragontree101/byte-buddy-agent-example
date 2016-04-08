@@ -1,10 +1,9 @@
 package com.dragon.study.bytebuddy.timer;
 
+import com.dragon.study.bytebuddy.annotation.Count;
+import com.dragon.study.bytebuddy.annotation.EnableMetrics;
 import com.dragon.study.bytebuddy.bean.Person;
 
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.HttpClients;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -14,13 +13,13 @@ import java.io.IOException;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-import okhttp3.internal.http.HttpEngine;
 import redis.clients.jedis.Jedis;
 
 /**
  * Created by dragon on 16/3/28.
  */
 @Component
+@EnableMetrics
 public class TimerPerson {
 
   @Autowired
@@ -28,7 +27,6 @@ public class TimerPerson {
 
   @Scheduled(fixedDelay = 5000L, initialDelay = 1000L)
   public void httpClientTest() {
-//    System.out.println(person.toString() + " calling http client, time is " + System.currentTimeMillis());
     OkHttpClient client = new OkHttpClient();
     String response;
     try {
@@ -38,8 +36,7 @@ public class TimerPerson {
       response = "request error";
     }
 
-    System.out.println("OK");
-
+    System.out.println(response);
   }
 
   private String getResponse(OkHttpClient client, String url) throws IOException {
@@ -48,7 +45,7 @@ public class TimerPerson {
         .build();
 
     Response response = client.newCall(request).execute();
-    return response.body().string();
+    return String.valueOf(response.code());
   }
 
   @Scheduled(fixedDelay = 10000L, initialDelay = 3000L)
@@ -57,9 +54,21 @@ public class TimerPerson {
     Jedis jedis = new Jedis("127.0.0.1", 6379);
     jedis.set("a", "b");
     String value = jedis.get("a");
-    String info = jedis.info();
-    System.out.println("key is a, value is " + value + ", info is " + info);
+    System.out.println("key is a, value is " + value);
+    jedis.info();
     jedis.close();
+  }
+
+  @Count(name = "test.count")
+  @Scheduled(fixedDelay =  3000L, initialDelay = 1000L)
+  public void testCount() {
+    System.out.println("begin test count");
+    try {
+      Thread.sleep(500);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+    System.out.println("end test count");
 
   }
 

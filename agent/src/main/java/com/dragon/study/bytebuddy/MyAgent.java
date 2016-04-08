@@ -1,5 +1,7 @@
 package com.dragon.study.bytebuddy;
 
+import com.dragon.study.bytebuddy.annotation.EnableMetrics;
+import com.dragon.study.bytebuddy.metrics.MetricsTransformer;
 import com.dragon.study.bytebuddy.okhttp.OkHttpTransformer;
 import com.dragon.study.bytebuddy.redis.RedisTransformer;
 
@@ -7,11 +9,12 @@ import net.bytebuddy.agent.builder.AgentBuilder;
 
 import java.lang.instrument.Instrumentation;
 
+import static net.bytebuddy.matcher.ElementMatchers.isAnnotatedWith;
 import static net.bytebuddy.matcher.ElementMatchers.isInterface;
 import static net.bytebuddy.matcher.ElementMatchers.isStatic;
 import static net.bytebuddy.matcher.ElementMatchers.nameStartsWith;
-import static net.bytebuddy.matcher.ElementMatchers.not;
 import static net.bytebuddy.matcher.ElementMatchers.named;
+import static net.bytebuddy.matcher.ElementMatchers.not;
 
 /**
  * Created by dragon on 16/3/29.
@@ -22,6 +25,8 @@ public class MyAgent {
 
     String okHttpInterceptor = "com.dragon.study.bytebuddy.okhttp.OkHttpInterceptor";
     String redisInterceptor = "com.dragon.study.bytebuddy.redis.RedisInterceptor";
+    String metricsInterceptor = "com.dragon.study.bytebuddy.metrics.MetricsInterceptor";
+
 
     new AgentBuilder.Default()
             .with(DebugListener.getListener())
@@ -29,6 +34,8 @@ public class MyAgent {
             .transform(new OkHttpTransformer(okHttpInterceptor))
             .type(nameStartsWith("redis.clients.jedis").and(not(isInterface())).and(not(isStatic())))
             .transform(new RedisTransformer(redisInterceptor))
+            .type(isAnnotatedWith(EnableMetrics.class))
+            .transform(new MetricsTransformer(metricsInterceptor))
             .installOn(instrumentation);
 
   }

@@ -71,6 +71,12 @@
         </dependency>
 
         <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.36</version>
+        </dependency>
+
+        <dependency>
             <groupId>com.dragon.study.bytebuddy</groupId>
             <artifactId>myagent</artifactId>
             <version>1.0.0-SNAPSHOT</version>

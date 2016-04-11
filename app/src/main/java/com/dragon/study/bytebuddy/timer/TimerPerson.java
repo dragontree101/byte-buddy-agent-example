@@ -9,6 +9,10 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -25,7 +29,7 @@ public class TimerPerson {
   @Autowired
   private Person person;
 
-  @Scheduled(fixedDelay = 5000L, initialDelay = 1000L)
+//  @Scheduled(fixedDelay = 5000L, initialDelay = 1000L)
   public void httpClientTest() {
     OkHttpClient client = new OkHttpClient();
     String response;
@@ -48,7 +52,7 @@ public class TimerPerson {
     return String.valueOf(response.code());
   }
 
-  @Scheduled(fixedDelay = 10000L, initialDelay = 3000L)
+//  @Scheduled(fixedDelay = 10000L, initialDelay = 3000L)
   public void redisTest() {
     System.out.println(person.toString() + " calling redis, time is " + System.currentTimeMillis());
     Jedis jedis = new Jedis("127.0.0.1", 6379);
@@ -59,8 +63,8 @@ public class TimerPerson {
     jedis.close();
   }
 
-  @Count(name = "test.count")
-  @Scheduled(fixedDelay =  3000L, initialDelay = 1000L)
+//  @Count(name = "test.count")
+//  @Scheduled(fixedDelay =  3000L, initialDelay = 1000L)
   public void testCount() {
     System.out.println("begin test count");
     try {
@@ -69,6 +73,27 @@ public class TimerPerson {
       e.printStackTrace();
     }
     System.out.println("end test count");
+  }
+
+  @Scheduled(fixedDelay = 7000L, initialDelay = 7000L)
+  public void testMysql() {
+    System.out.println("begin test mysql jdbc");
+    try {
+      Class.forName("com.mysql.jdbc.Driver").newInstance();
+      Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/demo","root", "");
+      PreparedStatement pp = conn.prepareStatement("select * from demo_table where age = ?");
+      pp.setInt(1, 30);
+      ResultSet re = pp.executeQuery();
+      String result;
+      if (re.next()) {
+        result = "name is :" + re.getString(1) + ", age is :" + re.getInt(2) + ", score is :" + re.getInt(3);
+        System.out.println("result is " + result);
+      }
+      conn.close();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    System.out.println("end test mysql jdbc");
 
   }
 

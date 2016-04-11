@@ -2,6 +2,7 @@ package com.dragon.study.bytebuddy;
 
 import com.dragon.study.bytebuddy.annotation.EnableMetrics;
 import com.dragon.study.bytebuddy.metrics.MetricsTransformer;
+import com.dragon.study.bytebuddy.mysql.MysqlTransformer;
 import com.dragon.study.bytebuddy.okhttp.OkHttpTransformer;
 import com.dragon.study.bytebuddy.redis.RedisTransformer;
 
@@ -26,6 +27,7 @@ public class MyAgent {
     String okHttpInterceptor = "com.dragon.study.bytebuddy.okhttp.OkHttpInterceptor";
     String redisInterceptor = "com.dragon.study.bytebuddy.redis.RedisInterceptor";
     String metricsInterceptor = "com.dragon.study.bytebuddy.metrics.MetricsInterceptor";
+    String mysqlInterceptor = "com.dragon.study.bytebuddy.mysql.MysqlInterceptor";
 
 
     new AgentBuilder.Default()
@@ -36,6 +38,8 @@ public class MyAgent {
             .transform(new RedisTransformer(redisInterceptor))
             .type(isAnnotatedWith(EnableMetrics.class))
             .transform(new MetricsTransformer(metricsInterceptor))
+            .type(named("com.mysql.jdbc.MysqlIO"))
+            .transform(new MysqlTransformer(mysqlInterceptor))
             .installOn(instrumentation);
 
   }

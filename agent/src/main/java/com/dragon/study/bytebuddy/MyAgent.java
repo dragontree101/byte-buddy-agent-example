@@ -5,6 +5,7 @@ import com.dragon.study.bytebuddy.metrics.MetricsTransformer;
 import com.dragon.study.bytebuddy.mysql.MysqlTransformer;
 import com.dragon.study.bytebuddy.okhttp.OkHttpTransformer;
 import com.dragon.study.bytebuddy.redis.RedisTransformer;
+import com.dragon.study.bytebuddy.thrift.ThriftServerTransformer;
 
 import net.bytebuddy.agent.builder.AgentBuilder;
 
@@ -28,6 +29,7 @@ public class MyAgent {
     String redisInterceptor = "com.dragon.study.bytebuddy.redis.RedisInterceptor";
     String metricsInterceptor = "com.dragon.study.bytebuddy.metrics.MetricsInterceptor";
     String mysqlInterceptor = "com.dragon.study.bytebuddy.mysql.MysqlInterceptor";
+    String thriftServerInterceptor = "com.dragon.study.bytebuddy.thrift.ThriftServerInterceptor";
 
 
     new AgentBuilder.Default()
@@ -40,6 +42,8 @@ public class MyAgent {
             .transform(new MetricsTransformer(metricsInterceptor))
             .type(named("com.mysql.jdbc.MysqlIO"))
             .transform(new MysqlTransformer(mysqlInterceptor))
+            .type(named("org.apache.thrift.TBaseProcessor").or(named("org.apache.thrift.TBaseAsyncProcessor")))
+            .transform(new ThriftServerTransformer(thriftServerInterceptor))
             .installOn(instrumentation);
 
   }

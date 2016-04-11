@@ -17,4 +17,5 @@ public class RedisTypeDescription {
     return new TypeDescription.Latent(new TypeDescription.ForLoadedType(byte[][].class).getName(),
         TypeDescription.ARRAY_MODIFIERS, null, null);
   }
+
 }

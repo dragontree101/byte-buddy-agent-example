@@ -94,8 +94,9 @@ public class TimerPerson {
       e.printStackTrace();
     }
     System.out.println("end test mysql jdbc");
-
   }
+
+
 
   public static void main(String[] args) {
     TimerPerson person = new TimerPerson();

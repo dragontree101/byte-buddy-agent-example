@@ -5,6 +5,7 @@ import com.dragon.study.bytebuddy.metrics.MetricsTransformer;
 import com.dragon.study.bytebuddy.mysql.MysqlTransformer;
 import com.dragon.study.bytebuddy.okhttp.OkHttpTransformer;
 import com.dragon.study.bytebuddy.redis.RedisTransformer;
+import com.dragon.study.bytebuddy.jersey.JerseyDispatcherTransformer;
 import com.dragon.study.bytebuddy.thrift.ThriftServerTransformer;
 
 import net.bytebuddy.agent.builder.AgentBuilder;
@@ -30,6 +31,7 @@ public class MyAgent {
     String metricsInterceptor = "com.dragon.study.bytebuddy.metrics.MetricsInterceptor";
     String mysqlInterceptor = "com.dragon.study.bytebuddy.mysql.MysqlInterceptor";
     String thriftServerInterceptor = "com.dragon.study.bytebuddy.thrift.ThriftServerInterceptor";
+    String jerseyInterceptor = "com.dragon.study.bytebuddy.jersey.JerseyDispatcherInterceptor";
 
 
     new AgentBuilder.Default()
@@ -44,6 +46,8 @@ public class MyAgent {
             .transform(new MysqlTransformer(mysqlInterceptor))
             .type(named("org.apache.thrift.TBaseProcessor").or(named("org.apache.thrift.TBaseAsyncProcessor")))
             .transform(new ThriftServerTransformer(thriftServerInterceptor))
+            .type(named("org.glassfish.jersey.server.model.internal.AbstractJavaResourceMethodDispatcher"))
+            .transform(new JerseyDispatcherTransformer(jerseyInterceptor))
             .installOn(instrumentation);
 
   }

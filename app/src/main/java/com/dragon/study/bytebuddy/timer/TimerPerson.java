@@ -7,12 +7,21 @@ import com.dragon.study.bytebuddy.bean.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -22,14 +31,17 @@ import redis.clients.jedis.Jedis;
 /**
  * Created by dragon on 16/3/28.
  */
+@Path("/")
 @Component
-@EnableMetrics
+//@RestController
+//@RequestMapping("/")
+//@EnableMetrics
 public class TimerPerson {
 
   @Autowired
   private Person person;
 
-  @Scheduled(fixedDelay = 5000L, initialDelay = 1000L)
+//  @Scheduled(fixedDelay = 5000L, initialDelay = 1000L)
   public void httpClientTest() {
     OkHttpClient client = new OkHttpClient();
     String response;
@@ -52,7 +64,7 @@ public class TimerPerson {
     return String.valueOf(response.code());
   }
 
-  @Scheduled(fixedDelay = 10000L, initialDelay = 3000L)
+//  @Scheduled(fixedDelay = 10000L, initialDelay = 3000L)
   public void redisTest() {
     System.out.println(person.toString() + " calling redis, time is " + System.currentTimeMillis());
     Jedis jedis = new Jedis("127.0.0.1", 6379);
@@ -63,8 +75,8 @@ public class TimerPerson {
     jedis.close();
   }
 
-  @Count(name = "test.count")
-  @Scheduled(fixedDelay =  3000L, initialDelay = 1000L)
+//  @Count(name = "test.count")
+//  @Scheduled(fixedDelay =  3000L, initialDelay = 1000L)
   public void testCount() {
     System.out.println("begin test count");
     try {
@@ -75,7 +87,7 @@ public class TimerPerson {
     System.out.println("end test count");
   }
 
-  @Scheduled(fixedDelay = 7000L, initialDelay = 7000L)
+//  @Scheduled(fixedDelay = 7000L, initialDelay = 7000L)
   public void testMysql() {
     System.out.println("begin test mysql jdbc");
     try {
@@ -94,6 +106,36 @@ public class TimerPerson {
       e.printStackTrace();
     }
     System.out.println("end test mysql jdbc");
+  }
+
+
+//  @RequestMapping("/http-jersey")
+  @Path("/http-jersey")
+  @GET
+  @Produces(MediaType.APPLICATION_JSON)
+  public String testHttpServlet() {
+    System.out.println("begin test http jersey");
+    try {
+      Thread.sleep(500);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+    System.out.println("end test http jersey");
+    return "OK";
+  }
+
+  @Path("/http-rest/{id}")
+  @GET
+  @Produces(MediaType.APPLICATION_JSON)
+  public String testHttpRest(@PathParam("id") int id) {
+    System.out.println("begin test http rest, id is " + id);
+    try {
+      Thread.sleep(500);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+    System.out.println("end test http rest, id is " + id);
+    return "OK";
   }
 
 

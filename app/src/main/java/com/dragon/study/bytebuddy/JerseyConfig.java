@@ -9,7 +9,7 @@ public class JerseyConfig extends ResourceConfig {
 
     public JerseyConfig() {
         register(RequestContextFilter.class);
-        packages("com.dragon.study.bytebuddy.timer");
+        packages("com.dragon.study.bytebuddy.rest");
         register(LoggingFilter.class);
     }
 }

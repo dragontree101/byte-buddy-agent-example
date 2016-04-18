@@ -1,5 +1,7 @@
 package com.dragon.study.bytebuddy;
 
+import com.dragon.study.bytebuddy.advice.AdviceProfiled;
+import com.dragon.study.bytebuddy.advice.AdviceProfiledTransformer;
 import com.dragon.study.bytebuddy.annotation.EnableMetrics;
 import com.dragon.study.bytebuddy.metrics.MetricsTransformer;
 import com.dragon.study.bytebuddy.mysql.MysqlTransformer;
@@ -36,6 +38,7 @@ public class MyAgent {
 
     new AgentBuilder.Default()
             .with(DebugListener.getListener())
+
             .type(named("okhttp3.internal.http.HttpEngine$NetworkInterceptorChain"))
             .transform(new OkHttpTransformer(okHttpInterceptor))
             .type(nameStartsWith("redis.clients.jedis").and(not(isInterface())).and(not(isStatic())))
@@ -48,6 +51,9 @@ public class MyAgent {
             .transform(new ThriftServerTransformer(thriftServerInterceptor))
             .type(named("org.glassfish.jersey.server.model.internal.AbstractJavaResourceMethodDispatcher"))
             .transform(new JerseyDispatcherTransformer(jerseyInterceptor))
+
+            .type(named("com.dragon.study.bytebuddy.advice.AdviceProfiled"))
+            .transform(new AdviceProfiledTransformer())
             .installOn(instrumentation);
 
   }

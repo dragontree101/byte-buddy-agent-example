@@ -11,30 +11,28 @@ public class DebugListener {
   public static AgentBuilder.Listener getListener() {
     return new AgentBuilder.Listener() {
       @Override
-      public void onTransformation(TypeDescription typeDescription, DynamicType dynamicType) {
-////        System.err.println("onTransformation:" + typeDescription.getCanonicalName());
-//        try {
-//          dynamicType.saveIn(new File("generated_classes"));
-//        } catch (IOException e) {
-//          e.printStackTrace();
-//        }
+      public void onTransformation(TypeDescription typeDescription, ClassLoader classLoader,
+          DynamicType dynamicType) {
+
       }
 
       @Override
-      public void onIgnored(TypeDescription typeDescription) {
-//        System.err.println("onIgored:" + typeDescription.getCanonicalName());
+      public void onIgnored(TypeDescription typeDescription, ClassLoader classLoader) {
+
       }
 
       @Override
-      public void onError(String typeName, Throwable throwable) {
-        System.err.println("onError:" + typeName);
+      public void onError(String s, ClassLoader classLoader, Throwable throwable) {
+        System.err.println("onError:" + s);
         throwable.printStackTrace();
       }
 
       @Override
-      public void onComplete(String typeName) {
-//        System.err.println("onComplete:" + typeName);
+      public void onComplete(String s, ClassLoader classLoader) {
+
       }
     };
   }
+
+
 }

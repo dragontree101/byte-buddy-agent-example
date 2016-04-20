@@ -8,15 +8,20 @@ import net.bytebuddy.asm.Advice;
 class AdviceProfiledInterceptor {
 
   @Advice.OnMethodEnter
-  static long enter(@Advice.Origin("#t.#m") String signature) {
+  static long enter(@Advice.Origin("#t.#m") String signature, @Advice.Argument(value = 0) int sleepTime, @Advice.Argument(value = 1) String invalidParam) {
     System.out.println("enter advice signature is " + signature);
+    System.out.println("======= sleep time is " + sleepTime + ", invalid param is " + invalidParam + "=======");
     return System.nanoTime();
   }
 
   @Advice.OnMethodExit
-  static void exit(@Advice.Enter long value, @Advice.Thrown Throwable t) {
+  static void exit(@Advice.Enter long value, @Advice.Return int sleepTime, @Advice.Thrown Throwable t) {
     System.out.println("duration time is " + ((System.nanoTime() - value) / (1000 * 1000)) + "ms");
-    System.out.println("--------- exception is " + t.getMessage());
+    if(t != null) {
+      System.out.println("--------- exception is " + t.getMessage());
+    } else {
+      System.out.println("======== sleep time is " + sleepTime + "========");
+    }
   }
 
   public static void main(String[] args) throws InterruptedException {

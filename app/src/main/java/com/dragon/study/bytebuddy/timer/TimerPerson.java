@@ -99,7 +99,7 @@ public class TimerPerson {
   public void testAdvice() {
     System.out.println("begin test advice");
     AdviceProfiled adviceProfiled = new AdviceProfiled();
-    adviceProfiled.profile();
+    adviceProfiled.profile(1000, "test");
     System.out.println("end test advice");
   }
 

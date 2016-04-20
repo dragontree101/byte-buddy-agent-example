@@ -11,6 +11,8 @@ public class AdviceProfiled {
   public void profile() {
     try {
       Thread.sleep(1000);
+      int i = 1/0;
+      System.out.println(i);
     } catch (InterruptedException e) {
       e.printStackTrace();
     }

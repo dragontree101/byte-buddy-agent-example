@@ -24,6 +24,7 @@ class AdviceProfiledInterceptor {
     }
   }
 
+
   public static void main(String[] args) throws InterruptedException {
     long t1 = System.currentTimeMillis();
     long t2 = System.nanoTime();

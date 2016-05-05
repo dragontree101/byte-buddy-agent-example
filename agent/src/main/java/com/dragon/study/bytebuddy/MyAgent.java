@@ -6,6 +6,7 @@ import com.dragon.study.bytebuddy.annotation.EnableMetrics;
 import com.dragon.study.bytebuddy.metrics.MetricsTransformer;
 import com.dragon.study.bytebuddy.mysql.MysqlTransformer;
 import com.dragon.study.bytebuddy.okhttp.OkHttpTransformer;
+import com.dragon.study.bytebuddy.redis.RedisAdviceTransformer;
 import com.dragon.study.bytebuddy.redis.RedisTransformer;
 import com.dragon.study.bytebuddy.jersey.JerseyDispatcherTransformer;
 import com.dragon.study.bytebuddy.thrift.ThriftServerTransformer;
@@ -39,21 +40,26 @@ public class MyAgent {
     new AgentBuilder.Default()
             .with(DebugListener.getListener())
 
-            .type(named("okhttp3.internal.http.HttpEngine$NetworkInterceptorChain"))
-            .transform(new OkHttpTransformer(okHttpInterceptor))
-            .type(nameStartsWith("redis.clients.jedis").and(not(isInterface())).and(not(isStatic())))
-            .transform(new RedisTransformer(redisInterceptor))
-            .type(isAnnotatedWith(EnableMetrics.class))
-            .transform(new MetricsTransformer(metricsInterceptor))
-            .type(named("com.mysql.jdbc.MysqlIO"))
-            .transform(new MysqlTransformer(mysqlInterceptor))
-            .type(named("org.apache.thrift.TBaseProcessor").or(named("org.apache.thrift.TBaseAsyncProcessor")))
-            .transform(new ThriftServerTransformer(thriftServerInterceptor))
-            .type(named("org.glassfish.jersey.server.model.internal.AbstractJavaResourceMethodDispatcher"))
-            .transform(new JerseyDispatcherTransformer(jerseyInterceptor))
+//            .type(named("okhttp3.internal.http.HttpEngine$NetworkInterceptorChain"))
+//            .transform(new OkHttpTransformer(okHttpInterceptor))
 
-            .type(named("com.dragon.study.bytebuddy.advice.AdviceProfiled"))
-            .transform(new AdviceProfiledTransformer())
+              //TODO: Use builder.method(....)
+//            .type(nameStartsWith("redis.clients.jedis").and(not(isInterface())).and(not(isStatic())))
+//            .transform(new RedisTransformer(redisInterceptor))
+        // TODO: Use builder.visit(....)
+        .type(nameStartsWith("redis.clients.jedis").and(not(isInterface())).and(not(isStatic())))
+        .transform(new RedisAdviceTransformer())
+//            .type(isAnnotatedWith(EnableMetrics.class))
+//            .transform(new MetricsTransformer(metricsInterceptor))
+//            .type(named("com.mysql.jdbc.MysqlIO"))
+//            .transform(new MysqlTransformer(mysqlInterceptor))
+//            .type(named("org.apache.thrift.TBaseProcessor").or(named("org.apache.thrift.TBaseAsyncProcessor")))
+//            .transform(new ThriftServerTransformer(thriftServerInterceptor))
+//            .type(named("org.glassfish.jersey.server.model.internal.AbstractJavaResourceMethodDispatcher"))
+//            .transform(new JerseyDispatcherTransformer(jerseyInterceptor))
+
+//            .type(named("com.dragon.study.bytebuddy.advice.AdviceProfiled"))
+//            .transform(new AdviceProfiledTransformer())
             .installOn(instrumentation);
 
   }

@@ -50,7 +50,7 @@ public class TimerPerson {
     return String.valueOf(response.code());
   }
 
-  //  @Scheduled(fixedDelay = 10000L, initialDelay = 3000L)
+  @Scheduled(fixedDelay = 10000L, initialDelay = 3000L)
   public void redisTest() {
     System.out.println(person.toString() + " calling redis, time is " + System.currentTimeMillis());
     Jedis jedis = new Jedis("127.0.0.1", 6379);
@@ -95,7 +95,7 @@ public class TimerPerson {
     System.out.println("end test mysql jdbc");
   }
 
-  @Scheduled(fixedDelay = 3000L, initialDelay = 3000L)
+//  @Scheduled(fixedDelay = 3000L, initialDelay = 3000L)
   public void testAdvice() {
     System.out.println("begin test advice");
     AdviceProfiled adviceProfiled = new AdviceProfiled();

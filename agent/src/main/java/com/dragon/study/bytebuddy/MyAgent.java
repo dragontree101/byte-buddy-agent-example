@@ -3,6 +3,7 @@ package com.dragon.study.bytebuddy;
 import com.dragon.study.bytebuddy.advice.AdviceProfiled;
 import com.dragon.study.bytebuddy.advice.AdviceProfiledTransformer;
 import com.dragon.study.bytebuddy.annotation.EnableMetrics;
+import com.dragon.study.bytebuddy.metrics.MetricsAdviceTransformer;
 import com.dragon.study.bytebuddy.metrics.MetricsTransformer;
 import com.dragon.study.bytebuddy.mysql.MysqlTransformer;
 import com.dragon.study.bytebuddy.okhttp.OkHttpTransformer;
@@ -47,10 +48,10 @@ public class MyAgent {
 //            .type(nameStartsWith("redis.clients.jedis").and(not(isInterface())).and(not(isStatic())))
 //            .transform(new RedisTransformer(redisInterceptor))
         // TODO: Use builder.visit(....)
-        .type(nameStartsWith("redis.clients.jedis").and(not(isInterface())).and(not(isStatic())))
-        .transform(new RedisAdviceTransformer())
-//            .type(isAnnotatedWith(EnableMetrics.class))
-//            .transform(new MetricsTransformer(metricsInterceptor))
+//        .type(nameStartsWith("redis.clients.jedis").and(not(isInterface())).and(not(isStatic())))
+//        .transform(new RedisAdviceTransformer())
+            .type(isAnnotatedWith(EnableMetrics.class))
+            .transform(new MetricsAdviceTransformer())
 //            .type(named("com.mysql.jdbc.MysqlIO"))
 //            .transform(new MysqlTransformer(mysqlInterceptor))
 //            .type(named("org.apache.thrift.TBaseProcessor").or(named("org.apache.thrift.TBaseAsyncProcessor")))

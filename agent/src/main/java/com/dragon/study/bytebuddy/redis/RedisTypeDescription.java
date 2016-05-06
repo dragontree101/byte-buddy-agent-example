@@ -13,6 +13,10 @@ public class RedisTypeDescription {
     return TypePool.Default.of(compound).describe("redis.clients.jedis.Protocol$Command").resolve();
   }
 
+  public static TypeDescription connectionDescription(ClassFileLocator.Compound compound) {
+    return TypePool.Default.of(compound).describe("redis.clients.jedis.Connection").resolve();
+  }
+
   public static TypeDescription byteArrayArrayDescription() {
     return new TypeDescription.Latent(new TypeDescription.ForLoadedType(byte[][].class).getName(),
         TypeDescription.ARRAY_MODIFIERS, null, null);

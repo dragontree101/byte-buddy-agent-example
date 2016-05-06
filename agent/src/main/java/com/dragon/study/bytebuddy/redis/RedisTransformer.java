@@ -29,6 +29,7 @@ public class RedisTransformer extends AbstractTransformer {
   @Override
   protected DynamicType.Builder.MethodDefinition.ImplementationDefinition builderTransform(
       DynamicType.Builder<?> builder, ClassFileLocator.Compound compound) {
+
     return builder.method(named("sendCommand").and(takesArguments(
         RedisTypeDescription.commandDescription(compound),
         RedisTypeDescription.byteArrayArrayDescription()))

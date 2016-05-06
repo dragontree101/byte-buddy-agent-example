@@ -30,7 +30,6 @@ public abstract class AbstractTransformer  implements AgentBuilder.Transformer {
     ClassFileLocator.Compound compound = new ClassFileLocator.Compound(ClassFileLocator.ForClassLoader.of(classLoader),
         ClassFileLocator.ForClassLoader.ofClassPath());
 
-
     return builderTransform(builder, compound).intercept(MethodDelegation.to(TypePool.Default.of(compound).describe(interceptor).resolve()));
 
   }

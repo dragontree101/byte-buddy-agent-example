@@ -1,5 +1,8 @@
 package com.dragon.study.bytebuddy.rest;
 
+import com.dragon.study.bytebuddy.annotation.Count;
+import com.dragon.study.bytebuddy.annotation.EnableMetrics;
+
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.GET;
@@ -13,6 +16,7 @@ import javax.ws.rs.core.MediaType;
  */
 @Path("/")
 @Component
+@EnableMetrics
 public class RestTest {
 
   @Path("/http-jersey")
@@ -32,6 +36,7 @@ public class RestTest {
   @Path("/http-rest/{id}")
   @GET
   @Produces(MediaType.APPLICATION_JSON)
+  @Count(name = "test.count")
   public String testHttpRest(@PathParam("id") int id) {
     System.out.println("begin test http rest, id is " + id);
     try {

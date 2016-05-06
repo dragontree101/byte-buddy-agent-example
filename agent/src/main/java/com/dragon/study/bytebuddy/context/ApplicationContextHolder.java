@@ -65,6 +65,7 @@ public class ApplicationContextHolder implements ApplicationListener<ContextRefr
 
     ClassInjector injector = new ClassInjector();
     try {
+      System.out.println("--------" + classLoader.toString());
       injector.injectToURLClassLoader(urls, (URLClassLoader) classLoader);
     } catch (Exception e) {
       e.printStackTrace();

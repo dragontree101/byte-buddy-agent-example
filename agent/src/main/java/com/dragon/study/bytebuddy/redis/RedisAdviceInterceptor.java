@@ -13,29 +13,33 @@ import redis.clients.jedis.Protocol;
 /**
  * Created by dragon on 16/5/4.
  */
-class RedisAdviceInterceptor {
+public class RedisAdviceInterceptor {
 
   @Advice.OnMethodEnter
   static long enter(
       @Advice.This
-      Connection connection,
+      Object obj,
       @Advice.Argument(value = 0)
-      Protocol.Command command,
+      Object arg0,
       @Advice.Argument(value = 1)
-      byte[][] args) {
+      byte[][] arg1) {
 
+    Connection connection = (Connection) obj;
     String host = connection.getHost();
     int port = connection.getPort();
 
     Person person = ApplicationContextHolder.getBean(Person.class);
-    Trace trace = new Trace();
+
+    Protocol.Command command = (Protocol.Command)arg0;
+    System.out.println(command);
 
     int i = 0;
-    for (Object arg : args) {
+    for (byte[] arg : arg1) {
       System.out.println("redis arg index: " + i++ + ", value is " + arg.toString());
     }
 
-    trace.setUrl("local redis host is " + host + ", port is " + port + ", person is " + person);
+    System.out.println("local redis host is " + host + ", port is " + port );
+
     return System.currentTimeMillis();
   }
 
@@ -44,19 +48,17 @@ class RedisAdviceInterceptor {
       @Advice.Enter
       long startTime,
       @Advice.Thrown
-      Exception e) {
+      Throwable t) {
     Trace trace = new Trace();
     trace.setCost(System.currentTimeMillis() - startTime);
-    if (e != null) {
-      e.printStackTrace();
-      trace.setE(e);
+    if (t != null) {
+      t.printStackTrace();
+      trace.setE(new Exception(t));
       trace.setStatusCode(-1);
     }
 
     System.out.println("redis exit");
 
   }
-
-
 
 }

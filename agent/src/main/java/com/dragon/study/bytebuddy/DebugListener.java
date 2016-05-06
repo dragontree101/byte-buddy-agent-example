@@ -13,7 +13,7 @@ public class DebugListener {
       @Override
       public void onTransformation(TypeDescription typeDescription, ClassLoader classLoader,
           DynamicType dynamicType) {
-
+        System.out.println(classLoader.toString());
       }
 
       @Override

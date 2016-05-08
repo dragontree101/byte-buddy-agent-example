@@ -27,30 +27,9 @@ public abstract class AbstractAdviceTransformer implements AgentBuilder.Transfor
         ClassFileLocator.ForClassLoader.of(classLoader),
         ClassFileLocator.ForClassLoader.ofClassPath());
 
-    System.out.println("~~~~~~~~~" + classLoader.toString());
-//    loaderAgentJarToClassLoader(classLoader);
-
     return builder.visit(Advice.to(builderAdviceTransform()).on(description(compound)));
 
   }
 
-//  private void loaderAgentJarToClassLoader(ClassLoader classLoader) {
-//    URL[] urls = JarLoader.loadMyAgentCoreLib();
-//    if(urls == null) {
-//      System.err.println("can not find my agent urls");
-//      throw new LoadMyAgentException("can not find my agent urls");
-//    }
-//
-////    ClassLoader classLoader = getClass().getClassLoader();
-//
-//    ClassInjector injector = new ClassInjector();
-//    try {
-//      System.out.println("--------" + classLoader.toString());
-//      injector.injectToURLClassLoader(urls, (URLClassLoader) classLoader);
-//    } catch (Exception e) {
-//      e.printStackTrace();
-//      throw new LoadMyAgentException("inject url to class loader exception", e);
-//    }
-//  }
 
 }

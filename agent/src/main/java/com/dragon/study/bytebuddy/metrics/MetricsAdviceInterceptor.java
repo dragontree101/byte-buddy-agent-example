@@ -18,18 +18,14 @@ public class MetricsAdviceInterceptor {
   static Map<String, String> enter(
       @Advice.This
       Object thiz,
-      @Advice.Origin("#m")
-      String methodName) {
+      @MetricsAdviceTransformer.CountSignature
+      String countName) {
     Map<String, String> mapToExit = new HashMap<>();
     try {
-      Method method = thiz.getClass().getMethod(methodName);
-      Count countAndTimeAnnotation = method.getAnnotation(Count.class);
-      System.out.println(countAndTimeAnnotation.name() + "=====");
+      System.out.println("=======" + countName + "=======");
     } catch (Exception e) {
       e.printStackTrace();
     }
-//    Count countAndTimeAnnotation = method.getAnnotation(Count.class);
-//    System.out.println(method.toString() + "-------");
     mapToExit.put("startTime", String.valueOf(System.currentTimeMillis()));
     return mapToExit;
   }

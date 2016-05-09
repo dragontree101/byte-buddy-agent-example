@@ -1,12 +1,31 @@
-# byte-buddy-agent-example
-简单的使用byte-buddy来做成javaagent, 来修改springboot启动的任务
+## 这个项目是用raphw大神写的byte buddy项目来做的一个简单的agent项目
 
-目前的demo修改了okhttp、redis、thrift的调用方法
+### demo的目的:
+这个项目目的是来完成对于用springboot启动的项目进行一些监控，主要是通过在一些常用包的关键方法前后加入一些统计代码，这样可以无侵入式的进行监控。
 
-添加了扫描指定注解方法的切入
+### 目前尝试修改的包:
+- redis
+- mysql
+- okhttp
+- jersey
+- thrift
+- 自定注解
 
-增加了基于jersey的http的方法切入
+### 使用的方式
+- byte buddy包中的 build.method(...).intercept(...)
+- byte buddy包中的 advice注解
 
-更新了bytebuddy的版本到1.3.19
+对于上面的两种方式，项目都有个简单的代码来展示一些基本的用法。(目前代码还有待整理)
 
-增加了使用advice注解的使用，用advice注解完成了基本相同的功能
+### 区别
+- build.method(...).intercept(...)
+这种方式其实是对真实的方法做了一层代理， 这种方式会影响代码的执行流。但是使用起来相对比advice注解更加直接和方便。
+并且这种方式可以很方便的进行调试，方便于代码的开发
+
+- advice注解
+这种方式是在启动的时候，通过asm来注入字节码，这种方式是不会影响和改变原始代码的执行流，
+并且在初始化的时候就把相关注解的代码植入到字节码中。
+
+### 性能
+上面两种方法性能方面具byte buddy的作者说应该是差不多的。但是我本人还是建议使用advice注解的方式来进行开发。
+

@@ -1,11 +1,7 @@
 package com.dragon.study.bytebuddy.metrics;
 
-import com.dragon.study.bytebuddy.annotation.Count;
-
 import net.bytebuddy.asm.Advice;
-import net.bytebuddy.implementation.bind.annotation.Origin;
 
-import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,7 +14,7 @@ public class MetricsAdviceInterceptor {
   static Map<String, String> enter(
       @Advice.This
       Object thiz,
-      @MetricsAdviceTransformer.CountSignature
+      @MetricsAdviceTransformer.MetricsSignature
       String countName) {
     Map<String, String> mapToExit = new HashMap<>();
     try {

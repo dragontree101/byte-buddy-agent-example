@@ -2,7 +2,7 @@ package com.dragon.study.bytebuddy.okhttp;
 
 import com.dragon.study.bytebuddy.Trace;
 import com.dragon.study.bytebuddy.bean.Person;
-import com.dragon.study.bytebuddy.context.ApplicationContextHolder;
+import com.dragon.study.bytebuddy.context.ApplicationContextRefreshedHolder;
 
 import net.bytebuddy.implementation.bind.annotation.AllArguments;
 import net.bytebuddy.implementation.bind.annotation.SuperCall;
@@ -22,7 +22,7 @@ public class OkHttpInterceptor {
       Callable<Response> client,
       @AllArguments
       Object[] args) throws Exception {
-    Person person = ApplicationContextHolder.getBean(Person.class);
+    Person person = ApplicationContextRefreshedHolder.getBean(Person.class);
     Trace trace = new Trace();
     long start = System.currentTimeMillis();
     try {

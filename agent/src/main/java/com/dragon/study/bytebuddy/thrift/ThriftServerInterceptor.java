@@ -1,8 +1,5 @@
 package com.dragon.study.bytebuddy.thrift;
 
-import com.dragon.study.bytebuddy.bean.Person;
-import com.dragon.study.bytebuddy.context.ApplicationContextHolder;
-
 import net.bytebuddy.implementation.bind.annotation.AllArguments;
 import net.bytebuddy.implementation.bind.annotation.SuperCall;
 

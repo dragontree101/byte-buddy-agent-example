@@ -2,22 +2,19 @@ package com.dragon.study.bytebuddy.mysql;
 
 import com.dragon.study.bytebuddy.Trace;
 import com.dragon.study.bytebuddy.bean.Person;
-import com.dragon.study.bytebuddy.context.ApplicationContextHolder;
+import com.dragon.study.bytebuddy.context.ApplicationContextRefreshedHolder;
 import com.mysql.jdbc.MysqlIO;
 import com.mysql.jdbc.PreparedStatement;
 import com.mysql.jdbc.ResultSetInternalMethods;
 import com.mysql.jdbc.Statement;
 
 import net.bytebuddy.implementation.bind.annotation.AllArguments;
-import net.bytebuddy.implementation.bind.annotation.Super;
 import net.bytebuddy.implementation.bind.annotation.SuperCall;
 import net.bytebuddy.implementation.bind.annotation.This;
 
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.util.concurrent.Callable;
-
-import redis.clients.jedis.Connection;
 
 /**
  * Created by dragon on 16/3/29.
@@ -32,7 +29,7 @@ public class MysqlInterceptor {
       @AllArguments
       Object[] args) throws Exception {
 
-    Person person = ApplicationContextHolder.getBean(Person.class);
+    Person person = ApplicationContextRefreshedHolder.getBean(Person.class);
     Trace trace = new Trace();
     long start = System.currentTimeMillis();
     Statement statement = (Statement) args[0];

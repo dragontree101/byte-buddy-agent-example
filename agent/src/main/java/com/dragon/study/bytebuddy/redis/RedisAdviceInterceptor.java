@@ -3,7 +3,7 @@ package com.dragon.study.bytebuddy.redis;
 
 import com.dragon.study.bytebuddy.Trace;
 import com.dragon.study.bytebuddy.bean.Person;
-import com.dragon.study.bytebuddy.context.ApplicationContextHolder;
+import com.dragon.study.bytebuddy.context.ApplicationContextRefreshedHolder;
 
 import net.bytebuddy.asm.Advice;
 
@@ -28,7 +28,7 @@ public class RedisAdviceInterceptor {
     String host = connection.getHost();
     int port = connection.getPort();
 
-    Person person = ApplicationContextHolder.getBean(Person.class);
+    Person person = ApplicationContextRefreshedHolder.getBean(Person.class);
 
     Protocol.Command command = (Protocol.Command)arg0;
     System.out.println(command);

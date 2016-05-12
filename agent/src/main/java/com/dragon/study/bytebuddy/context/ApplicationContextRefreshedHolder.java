@@ -9,6 +9,7 @@ import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.context.event.ContextStartedEvent;
 
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -18,7 +19,8 @@ import java.util.List;
 import java.util.Map;
 
 
-public class ApplicationContextHolder implements ApplicationListener<ContextRefreshedEvent> {
+public class ApplicationContextRefreshedHolder implements ApplicationListener<ContextRefreshedEvent> {
+
   private static ApplicationContext _context;
 
   private static Map<Class, Object> mockBeans;
@@ -49,16 +51,21 @@ public class ApplicationContextHolder implements ApplicationListener<ContextRefr
 
   @Override
   public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
+    System.out.println("context refreshed event");
     _context = contextRefreshedEvent.getApplicationContext();
 
-    loaderAgentJarToClassLoader();
+    if(!loaderAgentJarToClassLoader()){
+      System.out.println("use byte buddy agent, not use -javaagent");
+    }
   }
 
-  private void loaderAgentJarToClassLoader() {
+
+
+  private boolean loaderAgentJarToClassLoader() {
     URL[] urls = JarLoader.loadMyAgentCoreLib();
     if(urls == null) {
       System.err.println("can not find my agent urls");
-      throw new LoadMyAgentException("can not find my agent urls");
+      return false;
     }
 
     ClassLoader classLoader = getClass().getClassLoader();
@@ -71,7 +78,7 @@ public class ApplicationContextHolder implements ApplicationListener<ContextRefr
       e.printStackTrace();
       throw new LoadMyAgentException("inject url to class loader exception", e);
     }
+    return true;
   }
-
 
 }

@@ -1,2 +1,7 @@
 org.springframework.context.ApplicationListener=\
-com.dragon.study.bytebuddy.context.ApplicationContextHolder
+com.dragon.study.bytebuddy.context.ApplicationContextRefreshedHolder,\
+com.dragon.study.bytebuddy.context.ApplicationEnvStartedHolder,\
+com.dragon.study.bytebuddy.context.ApplicationPreparedHolder,\
+com.dragon.study.bytebuddy.context.ApplicationStartedHolder,\
+com.dragon.study.bytebuddy.context.ApplicationContextStartedHolder,\
+com.dragon.study.bytebuddy.context.ApplicationReadyHolder

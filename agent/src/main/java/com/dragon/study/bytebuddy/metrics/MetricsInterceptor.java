@@ -2,7 +2,7 @@ package com.dragon.study.bytebuddy.metrics;
 
 import com.dragon.study.bytebuddy.annotation.Count;
 import com.dragon.study.bytebuddy.bean.Person;
-import com.dragon.study.bytebuddy.context.ApplicationContextHolder;
+import com.dragon.study.bytebuddy.context.ApplicationContextRefreshedHolder;
 
 import net.bytebuddy.implementation.bind.annotation.Origin;
 import net.bytebuddy.implementation.bind.annotation.RuntimeType;
@@ -22,7 +22,7 @@ public class MetricsInterceptor {
       Callable<?> client,
       @Origin
       Method method) throws Exception {
-    Person person = ApplicationContextHolder.getBean(Person.class);
+    Person person = ApplicationContextRefreshedHolder.getBean(Person.class);
     long start = System.currentTimeMillis();
     try {
       System.out.println("person is " + person.toString());

@@ -1,7 +1,6 @@
 package com.dragon.study.bytebuddy.timer;
 
 import com.dragon.study.bytebuddy.advice.AdviceProfiled;
-import com.dragon.study.bytebuddy.annotation.Count;
 import com.dragon.study.bytebuddy.annotation.EnableMetrics;
 import com.dragon.study.bytebuddy.bean.Person;
 
@@ -62,8 +61,8 @@ public class TimerPerson {
     jedis.close();
   }
 
-  @Count(name = "test.count")
-  @Scheduled(fixedDelay = 3000L, initialDelay = 1000L)
+//  @Count(name = "test.count")
+//  @Scheduled(fixedDelay = 3000L, initialDelay = 1000L)
   public void testCount() {
     System.out.println("begin test count");
     try {
@@ -96,7 +95,7 @@ public class TimerPerson {
     System.out.println("end test mysql jdbc");
   }
 
-  //  @Scheduled(fixedDelay = 3000L, initialDelay = 3000L)
+//    @Scheduled(fixedDelay = 3000L, initialDelay = 3000L)
   public void testAdvice() {
     System.out.println("begin test advice");
     AdviceProfiled adviceProfiled = new AdviceProfiled();

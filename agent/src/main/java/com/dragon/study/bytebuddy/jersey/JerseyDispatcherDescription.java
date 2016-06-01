@@ -23,7 +23,7 @@ public class JerseyDispatcherDescription {
         Modifier.PUBLIC | Modifier.ABSTRACT, TypeDescription.Generic.OBJECT, null);
   }
 
-  private static TypeDescription containerRequestContextDescription() {
+  public static TypeDescription containerRequestContextDescription() {
     return new TypeDescription.Latent("javax.ws.rs.container.ContainerRequestContext",
         Modifier.PUBLIC | Modifier.INTERFACE, TypeDescription.Generic.OBJECT, null);
   }

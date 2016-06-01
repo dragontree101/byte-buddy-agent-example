@@ -5,7 +5,7 @@ import java.util.Random;
 /**
  * Created by dragon on 16/4/18.
  */
-public class AdviceProfiled {
+public class AdviceProfiled implements IAdviceProfiled{
 
   public AdviceProfiled() {
   }

@@ -13,16 +13,17 @@ public class AdviceProfiled implements IAdviceProfiled{
   public int profile(int sleepTime, String invalidParam) {
     try {
       Thread.sleep(sleepTime);
+      System.out.println("---- profile sleep time ------");
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
 
-    Random random = new Random();
-    if(random.nextInt(sleepTime) % 2 == 0) {
-      int i = 1/0;
-      System.out.println(i);
-    }
-    System.out.println("profile sleep time is " + sleepTime + ", invalid param is " + invalidParam);
+//    Random random = new Random();
+//    if(random.nextInt(sleepTime) % 2 == 0) {
+//      int i = 1/0;
+//      System.out.println(i);
+//    }
+//    System.out.println("profile sleep time is " + sleepTime + ", invalid param is " + invalidParam);
     return sleepTime * 10;
   }
 

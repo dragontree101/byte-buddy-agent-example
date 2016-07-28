@@ -11,7 +11,6 @@ import net.bytebuddy.matcher.ElementMatchers;
  */
 public class AdviceProfiledTransformer  implements AgentBuilder.Transformer{
 
-
   @Override
   public DynamicType.Builder<?> transform(DynamicType.Builder<?> builder,
       TypeDescription typeDescription, ClassLoader classLoader) {

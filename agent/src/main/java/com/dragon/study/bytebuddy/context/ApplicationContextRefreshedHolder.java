@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
+//4
 public class ApplicationContextRefreshedHolder implements ApplicationListener<ContextRefreshedEvent> {
 
   private static ApplicationContext _context;

@@ -95,7 +95,7 @@ public class TimerPerson {
     System.out.println("end test mysql jdbc");
   }
 
-//    @Scheduled(fixedDelay = 3000L, initialDelay = 3000L)
+    @Scheduled(fixedDelay = 3000L, initialDelay = 3000L)
   public void testAdvice() {
     System.out.println("begin test advice");
     AdviceProfiled adviceProfiled = new AdviceProfiled();

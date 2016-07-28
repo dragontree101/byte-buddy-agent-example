@@ -5,7 +5,7 @@ import org.springframework.boot.context.event.ApplicationEnvironmentPreparedEven
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextStartedEvent;
 
-
+//2
 public class ApplicationEnvStartedHolder implements ApplicationListener<ApplicationEnvironmentPreparedEvent> {
 
 
